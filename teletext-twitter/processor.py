@@ -13,10 +13,8 @@ def tweet_remove_emojis(tweet):
     # remove pesky emoji characters
     emoji_pattern = re.compile("[" # our unicode ranges go here. this will need frequent tweaking
                               u"\U00002300-\U000023FF" # misc technical
-                              u"\U000024C2-\U0001F251" # enclosed characters including flags
-                              u"\U0001F300-\U0001F5FF" # symbols & pictographs
-                              u"\U0001F600-\U0001F67F" # emoticons
                               u"\U0001F680-\U0001F9FF" # transport & map symbols
+                              u"\U0001F1E6-\U0001F1FF" # regional indicator symbols
                                "]+", flags=re.UNICODE)
     tweet = emoji_pattern.sub(r'', tweet)
     return tweet
@@ -24,7 +22,7 @@ def tweet_remove_emojis(tweet):
 def tweet_remove_urls(tweet):
     # all tweets are https t.co links, so this is all we need
     url_pattern = re.compile("https://\S+")
-    tweet = url_pattern.sub('[LINK]', tweet)
+    tweet = url_pattern.sub('<LINK>', tweet)
     return tweet
 
 def tweet_highlight_query(tweet, query, config):
@@ -50,6 +48,17 @@ def charsub(text):
     text = text.replace("Å", "Å")
     text = text.replace("„", "”")
     text = text.replace("‟", "“")
+    
+    # emoji stuff
+    text = re.sub("[😊☺]","🙂",text,flags=re.UNICODE) # like slightly smiling face
+    text = re.sub("[😁😃😄😆]","😀",text,flags=re.UNICODE) # like grinning face
+    text = text.replace("😝", "😛") # face with tongue
+    text = text.replace("🤣", "😂") # rofl -> face with tears of joy
+    text = text.replace("🤓", "😎") # nerd -> sunglasses
+    text = re.sub("[☹😦]","🙁",text,flags=re.UNICODE) # like slightly frowning face
+    text = text.replace("😭", "😢") # crying face
+    text = re.sub("[🤚👋🖐]","✋",text,flags=re.UNICODE) # like raised hand
+    text = re.sub("["u"\U0000FE00-\U0000FE0F]","",text,flags=re.UNICODE) # strip variation selectors
     
     return text
 
@@ -223,6 +232,26 @@ enhancementmapping = {
     "●":[0x7f,0x02,0x4D],
     "⬤":[0x7f,0x02,0x4E],
     "◯":[0x4f,0x02,0x4F],
+    
+    # emojis from custom gdrcs
+    "🙂":[0x20,0x0D,0x00], # slightly smiling face
+    "😀":[0x20,0x0D,0x01], # grinning face
+    "😛":[0x20,0x0D,0x02], # face with tongue
+    "😉":[0x20,0x0D,0x03], # winking face
+    "😂":[0x20,0x0D,0x04], # face with tears of joy
+    "😎":[0x20,0x0D,0x05], # smiling face with sunglasses
+    "😜":[0x20,0x0D,0x06], # winking face with tongue
+    "😮":[0x20,0x0D,0x07], # face with open mouth
+    "😵":[0x20,0x0D,0x08], # dizzy face
+    "🙁":[0x20,0x0D,0x09], # slightly frowning face
+    "😢":[0x20,0x0D,0x0A], # crying face
+    "💯":[0x20,0x0D,0x0B], # hundred points
+    "👍":[0x20,0x0D,0x0C], # thumbs up
+    "👎":[0x20,0x0D,0x0D], # thumbs down
+    "👌":[0x20,0x0D,0x0E], # OK hand
+    "✋":[0x20,0x0D,0x0F], # raised hand
+    "❤":[0x20,0x0D,0x10], # heavy black heart
+    "💔":[0x20,0x0D,0x11], # broken heart
     
     #todo: more mappings
 }

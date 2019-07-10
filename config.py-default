@@ -18,6 +18,8 @@ tweet_colour = "white"
 username_colour = "cyan"
 timestamp_colour = "cyan"
 search_highlight = "yellow"
+fastext = "8ff,8ff,8ff,8ff,8ff,8ff"
+footer = "                                        "
 
 # miscellaneous
 tti_path = "/home/pi/teletext/"

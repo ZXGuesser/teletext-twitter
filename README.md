@@ -56,7 +56,9 @@ You can change the colours of:
 - the text of the tweet itself
 - the highlight used on search queries
 
-Finally, the title text string and colour at the top can be changed, although there is a 30 character limit or things look wonky.
+The title text string and colour at the top can be changed, although there is a 30 character limit or things look wonky.
+
+Finally, you can set the fastext link page numbers, and the contents of row 24 (using .tti format 7-bit escaping for control codes).
 
 ### Miscellaneous options
 

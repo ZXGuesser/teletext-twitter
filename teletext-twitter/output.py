@@ -82,7 +82,7 @@ def write_tweets(twitter_object, mode, count, config, query=None): # grab the la
         tweet_text = charsub(tweet_text)
         tweet_text = textwrap.wrap(tweet_text, 38)
         post_length = len(tweet_text) + 1
-        if (line_position + post_length) > 24:
+        if (line_position + post_length) > 23:
             subpage += 1
             if subpage > 99:
                 break # reached subpage limit - no point checking the rest

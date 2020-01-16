@@ -58,7 +58,7 @@ def charsub(text):
     text = text.replace("🤣", "😂") # rofl -> face with tears of joy
     text = text.replace("🤓", "😎") # nerd -> sunglasses
     text = re.sub("[☹😦]","🙁",text,flags=re.UNICODE) # like slightly frowning face
-    text = text.replace("😭", "😢") # crying face
+    text = re.sub("[😭😥]", "😢",text,flags=re.UNICODE) # like crying face
     text = re.sub("[🤚👋🖐]","✋",text,flags=re.UNICODE) # like raised hand
     text = re.sub("["u"\U0000FE00-\U0000FE0F]","",text,flags=re.UNICODE) # strip variation selectors
     

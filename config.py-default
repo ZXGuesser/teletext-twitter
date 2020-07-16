@@ -21,6 +21,14 @@ search_highlight = "yellow"
 fastext = "8ff,8ff,8ff,8ff,8ff,8ff"
 footer = "                                        "
 
+# level 2.5
+#packet_28 = "@@@|gpCu_@|wKpZA`UB_wLs_w}ww]_oh_wM@@" # define CLUT3:6 as twitter blue for enhanced logo object
+# emojis require a GDRCS downloading page and appropriate magazine organisation entry in service
+emoji_support = False
+# object invocation triplet per ETS 300 706 12.3.3
+# requires an appropriate object downloading page and magazine organisation table in service.
+#logo_object_triplet = [0x30,0x13,0x00] # invoke passive object pointer P0 in POP
+
 # miscellaneous
 tti_path = "/home/pi/teletext/"
 page_number = 153

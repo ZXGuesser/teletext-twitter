@@ -60,6 +60,12 @@ The title text string and colour at the top can be changed, although there is a 
 
 Finally, you can set the fastext link page numbers, and the contents of row 24 (using .tti format 7-bit escaping for control codes).
 
+### Level 2.5 teletext options
+These options require appropriate downloading pages and a magazine organisation table to be present in the teletext service. Example files are included for a teletext-twitter page on P153 in the enhancement directory.
+- packet_28: if present write value to enhancement packet 28 (string is tti OL,28 row encoding)
+- emoji_support: use global dynamic redefineable character set to display certain emoji
+- logo_object_triplet: if present this is added to the enhancement packets on each subpage to invoke an object at the location of the twitter logo.
+
 ### Miscellaneous options
 
 - tti_path: (default: "/home/pi/teletext/") - the path your pages will be saved to

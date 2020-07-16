@@ -39,7 +39,9 @@ def write_header(file, subpage, max_subpages, config): # write a header for the 
     file.write("PN," + str(config["page_number"]) + "{:02}\r\n".format(subpage))
     file.write("SC,00" + "{:02}\r\n".format(subpage))
     file.write("FL," + config["fastext"] + "\r\n")
-    file.write("OL,28,@@@|gpCu_@|wKpZA`UB_wLs_w}ww]_oh_wM@@\r\n") # define CLUT3:6 as twitter blue for enhanced logo
+    
+    if "packet_28" in config.keys():
+        file.write("OL,28,"+config["packet_28"]+"\r\n") # page enhancement packet
     file.write("OL,1," + ESCAPE + chr(text_colours[config["header_colour"]]) + SET_BACKGROUND +
                DOUBLE_HEIGHT + ESCAPE + chr(text_colours[config["page_title_colour"]]) + page_title +
                logo_spacer + ESCAPE + chr(mosaic_colours["cyan"]) + TWITTER_BIRD + "\r\n")
@@ -75,7 +77,7 @@ def write_tweets(twitter_object, mode, count, config, query=None): # grab the la
     # write - is there a better way of doing this?
     line_position = 4
     for status in statuses:
-        tweet_text = tweet_remove_emojis(status.full_text)
+        tweet_text = tweet_remove_emojis(status.full_text, config)
         tweet_text = tweet_remove_urls(tweet_text)
         if mode == "search":
             tweet_text = tweet_highlight_query(tweet_text, query, config)
@@ -89,16 +91,20 @@ def write_tweets(twitter_object, mode, count, config, query=None): # grab the la
             line_position = 4
         line_position += post_length
     max_subpages = min(subpage, 99)
-
+    
     # reset everything for the actual writing
     subpage = 1
     with open(filename, "w+", newline="") as file:
         write_header(file, subpage, max_subpages, config)
     line_position = 4
     subpage_enhancements = []
+    
+    if "logo_object_triplet" in config.keys():
+        subpage_enhancements.append([41,4,35]) # set active position
+        subpage_enhancements.append(config["logo_object_triplet"])
 
     for status in statuses: # iterate through our responses
-        tweet_text = tweet_remove_emojis(status.full_text)
+        tweet_text = tweet_remove_emojis(status.full_text, config)
         tweet_text = tweet_remove_urls(tweet_text)
         if mode == "search":
             tweet_text = tweet_highlight_query(tweet_text, query, config)
@@ -116,6 +122,9 @@ def write_tweets(twitter_object, mode, count, config, query=None): # grab the la
                     write_enhancements(file, subpage_enhancements)
                 subpage += 1 # start a new page
                 subpage_enhancements = []
+                if "logo_object_triplet" in config.keys():
+                    subpage_enhancements.append([41,4,35]) # set active position
+                    subpage_enhancements.append(config["logo_object_triplet"])
                 if subpage > 99:
                     return # reached subpage limit - dump the rest
                 write_header(file, subpage, max_subpages, config)
